@@ -7,6 +7,6 @@ Nama Anggota:
   
 Tema yang dipilih: Lifestyle, Shopping, and Entertainment
 
-Judul Proyek: My Movie List (Aplikasi yang rekomendasi film yang akan tayang dan sedang hits)
+Judul Proyek: My Movie List (Aplikasi yang merekomendasikan film yang akan tayang dan sedang hits)
 
 
