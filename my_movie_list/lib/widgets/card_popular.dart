@@ -8,7 +8,7 @@ import '../ui/detail_page.dart';
 class CardPopular extends StatelessWidget {
   final MovieItem popularMovies;
 
-  const CardPopular({required this.popularMovies});
+  const CardPopular({Key? key, required this.popularMovies}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,34 +37,34 @@ class CardPopular extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(left: 3),
+                        padding: const EdgeInsets.only(left: 3),
                         child: Text(
                           popularMovies.fullTitle!,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      SizedBox(height: 3),
-                      Row(
-                          children: <Widget>[
-                            Icon(Platform.isIOS ? CupertinoIcons.calendar : Icons.calendar_month,),
-                            SizedBox(width: 3.0),
-                            Text(popularMovies.year!),
-                          ]
-                      ),
-                      SizedBox(height: 3),
-                      Row(
-                          children: <Widget>[
-                            Icon(
-                              Platform.isIOS ? CupertinoIcons.star : Icons.star,
-                              color: Colors.orange,
-                            ),
-                            SizedBox(width: 3.0),
-                            Text(popularMovies.imDbRating!),
-                          ]
-                      ),
+                      const SizedBox(height: 3),
+                      Row(children: <Widget>[
+                        Icon(
+                          Platform.isIOS
+                              ? CupertinoIcons.calendar
+                              : Icons.calendar_month,
+                        ),
+                        const SizedBox(width: 3.0),
+                        Text(popularMovies.year!),
+                      ]),
+                      const SizedBox(height: 3),
+                      Row(children: <Widget>[
+                        Icon(
+                          Platform.isIOS ? CupertinoIcons.star : Icons.star,
+                          color: Colors.orange,
+                        ),
+                        const SizedBox(width: 3.0),
+                        Text(popularMovies.imDbRating ?? '-'),
+                      ]),
                     ],
                   ),
                 ),

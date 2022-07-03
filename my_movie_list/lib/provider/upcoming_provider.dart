@@ -29,7 +29,7 @@ class UpcomingProvider extends ChangeNotifier {
       if (article.items.isEmpty) {
         _state = ResultState.noData;
         notifyListeners();
-        return _message = 'Empty Data';
+        return _message = 'No Upcoming Movie Yet';
       } else {
         _state = ResultState.hasData;
         notifyListeners();

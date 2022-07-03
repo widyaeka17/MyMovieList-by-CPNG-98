@@ -80,12 +80,22 @@ ThemeData lightTheme = ThemeData(
       ),
     ),
   ),
+  inputDecorationTheme: const InputDecorationTheme(
+      labelStyle: TextStyle(color: Colors.black),
+      iconColor: Colors.black,
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+            style: BorderStyle.solid,
+            color: Colors.black
+        ),
+      )
+  )
 );
 
 ThemeData darkTheme = ThemeData.dark().copyWith(
   colorScheme: ThemeData.dark().colorScheme.copyWith(
     primary: darkPrimaryColor,
-    onPrimary: Colors.black,
+    onPrimary: Colors.white,
     secondary: darkSecondaryColor,
   ),
   visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -107,4 +117,14 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
       ),
     ),
   ),
+  inputDecorationTheme: const InputDecorationTheme(
+      labelStyle: TextStyle(color: Colors.white),
+      iconColor: Colors.white,
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+            style: BorderStyle.solid,
+            color: Colors.white
+        ),
+      )
+  )
 );

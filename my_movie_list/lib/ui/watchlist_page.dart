@@ -1,19 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_movie_list/widgets/card_popular.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/database_provider.dart';
 import '../utils/result_state.dart';
-import '../widgets/card_upcoming.dart';
 import '../widgets/platform_widget.dart';
 
 class WatchlistPage extends StatelessWidget {
+  static const routeName = '/watchlist-page';
   static const String watchlistTitle = 'Watchlist';
+
+  const WatchlistPage({Key? key}) : super(key: key);
 
   Widget _buildAndroid(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(watchlistTitle),
+        title: const Text(watchlistTitle),
       ),
       body: _buildList(),
     );
@@ -21,7 +24,7 @@ class WatchlistPage extends StatelessWidget {
 
   Widget _buildIos(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
+      navigationBar: const CupertinoNavigationBar(
         middle: Text(watchlistTitle),
       ),
       child: _buildList(),
@@ -35,7 +38,7 @@ class WatchlistPage extends StatelessWidget {
           return ListView.builder(
             itemCount: provider.watchlist.length,
             itemBuilder: (context, index) {
-              return CardUpcoming(upcomingMovies: provider.watchlist[index]);
+              return CardPopular(popularMovies: provider.watchlist[index]);
             },
           );
         } else {

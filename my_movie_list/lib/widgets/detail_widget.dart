@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_movie_list/data/model/movie_list_model.dart';
+import 'package:my_movie_list/utils/convert.dart';
 import 'package:provider/provider.dart';
 
 import '../data/model/detail_model.dart';
@@ -11,26 +11,33 @@ import '../provider/database_provider.dart';
 import '../ui/detail_page.dart';
 
 class MovieDetail extends StatelessWidget {
-
   final DetailResult movieDetail;
-  final MovieItem movie;
 
-  const MovieDetail({required this.movieDetail , required this.movie});
+  const MovieDetail({Key? key, required this.movieDetail})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Widget image;
-    if (movieDetail.posters.backdrops.isEmpty){
+    if (movieDetail.posters.backdrops.isEmpty) {
       image = Container(
-        margin: const EdgeInsets.only( top: 5),
+        margin: const EdgeInsets.only(top: 5),
         height: (MediaQuery.of(context).size.height * 0.25),
-        child: Image.network(movieDetail.image!, fit: BoxFit.cover, width: 1000,),
+        child: Image.network(
+          movieDetail.image!,
+          fit: BoxFit.cover,
+          width: 1000,
+        ),
       );
-    }else{
+    } else {
       image = Container(
-        margin: const EdgeInsets.only( top: 5),
+        margin: const EdgeInsets.only(top: 5),
         height: (MediaQuery.of(context).size.height * 0.25),
-        child: Image.network(movieDetail.posters.backdrops[0].link, fit: BoxFit.cover, width: 1000,),
+        child: Image.network(
+          movieDetail.posters.backdrops[0].link,
+          fit: BoxFit.cover,
+          width: 1000,
+        ),
       );
     }
     return Scaffold(
@@ -39,86 +46,95 @@ class MovieDetail extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     movieDetail.title!,
                     textAlign: TextAlign.left,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 30.0,
                       fontFamily: 'Staatliches',
                     ),
                   ),
-                  Row(
-                      children: <Widget>[
-                        Text(movieDetail.year),
-                        SizedBox(width: 15.0),
-                        Text(movieDetail.runtimeStr ?? 'TV Series'),
-                      ]
-                  ),
+                  Row(children: <Widget>[
+                    Text(movieDetail.year),
+                    const SizedBox(width: 15.0),
+                    Text(movieDetail.runtimeStr ?? 'TV Series'),
+                  ]),
                 ],
               ),
             ),
             image,
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                Consumer<DatabaseProvider>(
-                builder: (context, provider, child) {
-                  return FutureBuilder<bool>(
-                      future: provider.isWatchlisted(movieDetail.id),
-                      builder: (context, snapshot) {
-                        var isBookmarked = snapshot.data ?? false;
-                        return Container(
-                          width: 1000,
-                          height: 40,
-                          child: isBookmarked
-                            ?TextButton(
-                            style: TextButton.styleFrom(
-                                backgroundColor: Colors.yellow.shade700),
-                            onPressed: () => provider.removeWatchlist(movieDetail.id),
-                            child: Row(
-                              children: [
-                                Icon(Platform.isIOS ? CupertinoIcons.check_mark : Icons
-                                    .check,),
-                                SizedBox(width: 10),
-                                Text(
-                                    "Add to Watchlist"
-                                ),
-                              ],
-                            ),
-                          )
-                          :TextButton(
-                            style: TextButton.styleFrom(
-                                backgroundColor: Colors.yellow.shade700),
-                            onPressed: () => provider.addWatchlist(movie),
-                            child: Row(
-                              children: [
-                                Icon(Platform.isIOS ? CupertinoIcons.add : Icons
-                                    .add,),
-                                SizedBox(width: 10),
-                                Text(
-                                    "Add to Watchlist"
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      });
-                }),
+                  Consumer<DatabaseProvider>(
+                      builder: (context, provider, child) {
+                    return FutureBuilder<bool>(
+                        future: provider.isWatchlisted(movieDetail.id),
+                        builder: (context, snapshot) {
+                          var isBookmarked = snapshot.data ?? false;
+                          return SizedBox(
+                            width: 1000,
+                            height: 40,
+                            child: isBookmarked
+                                ? TextButton(
+                                    style: TextButton.styleFrom(
+                                        backgroundColor:
+                                            Colors.yellow.shade700),
+                                    onPressed: () => provider
+                                        .removeWatchlist(movieDetail.id),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Platform.isIOS
+                                              ? CupertinoIcons.check_mark
+                                              : Icons.check,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        const Text("Add to Watchlist"),
+                                      ],
+                                    ),
+                                  )
+                                : TextButton(
+                                    style: TextButton.styleFrom(
+                                        backgroundColor:
+                                            Colors.yellow.shade700),
+                                    onPressed: () =>
+                                        provider.addWatchlist(convert(movieDetail)),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Platform.isIOS
+                                              ? CupertinoIcons.add
+                                              : Icons.add,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        const Text("Add to Watchlist"),
+                                      ],
+                                    ),
+                                  ),
+                          );
+                        });
+                  }),
                   Container(
-                    margin: EdgeInsets.symmetric(vertical: 16.0),
+                    margin: const EdgeInsets.symmetric(vertical: 16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Column(
                           children: <Widget>[
-                            Icon(Platform.isIOS ? CupertinoIcons.star_fill : Icons.star, color: Colors.orange,),
-                            SizedBox(height: 5.0),
+                            Icon(
+                              Platform.isIOS
+                                  ? CupertinoIcons.star_fill
+                                  : Icons.star,
+                              color: Colors.orange,
+                            ),
+                            const SizedBox(height: 5.0),
                             Text(
                               movieDetail.imDbRating ?? '-',
                             ),
@@ -128,12 +144,10 @@ class MovieDetail extends StatelessWidget {
                           children: <Widget>[
                             Container(
                               color: Colors.green,
-                              child: Text(
-                                movieDetail.metacriticRating ?? '-'
-                              ),
+                              child: Text(movieDetail.metacriticRating ?? '-'),
                             ),
-                            SizedBox(height: 10.0),
-                            Text(
+                            const SizedBox(height: 10.0),
+                            const Text(
                               'Metacritics',
                             ),
                           ],
@@ -150,38 +164,36 @@ class MovieDetail extends StatelessWidget {
                         itemBuilder: (context, index) {
                           var data = movieDetail.genreList[index];
                           return Container(
-                            width: 60,
+                            width: 80,
                             margin: const EdgeInsets.only(right: 5),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
                                   color: Colors.grey.shade600,
                                   width: 1,
-                                )
-                            ),
+                                )),
                             child: Text(
                               data.value,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 15,
                               ),
                             ),
                           );
-                        }
-                    ),
+                        }),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: ExpandText(
                       movieDetail.plot!,
                       textAlign: TextAlign.justify,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16.0,
                         fontFamily: 'Oxygen',
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   const Text(
                     'Director',
                     style: TextStyle(
@@ -192,10 +204,9 @@ class MovieDetail extends StatelessWidget {
                   Text(
                     movieDetail.directors!,
                     style: const TextStyle(
-                      fontSize: 15.0,
-                      fontFamily: 'Staatliches',
-                      fontWeight: FontWeight.bold
-                    ),
+                        fontSize: 15.0,
+                        fontFamily: 'Staatliches',
+                        fontWeight: FontWeight.bold),
                   ),
                   const Text(
                     'Writers',
@@ -212,7 +223,7 @@ class MovieDetail extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   const Text(
                     'Actors',
                     style: TextStyle(
@@ -220,14 +231,14 @@ class MovieDetail extends StatelessWidget {
                       fontFamily: 'Staatliches',
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Container(
+                  const SizedBox(height: 10),
+                  SizedBox(
                     height: 200,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: movieDetail.actorList.map((actor) {
                         return Card(
-                          child: Container(
+                          child: SizedBox(
                             width: 100,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,7 +249,7 @@ class MovieDetail extends StatelessWidget {
                                     fit: BoxFit.cover,
                                   ),
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 0.0),
                                   child: Text(
@@ -246,21 +257,21 @@ class MovieDetail extends StatelessWidget {
                                     textAlign: TextAlign.left,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 12.0,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 0.0),
                                   child: Text(
-                                    'as '+actor.asCharacter,
+                                    'as ' + actor.asCharacter,
                                     textAlign: TextAlign.left,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 11.0,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -273,7 +284,7 @@ class MovieDetail extends StatelessWidget {
                       }).toList(),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   const Text(
                     'More Like This',
                     style: TextStyle(
@@ -281,8 +292,8 @@ class MovieDetail extends StatelessWidget {
                       fontFamily: 'Staatliches',
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Container(
+                  const SizedBox(height: 10),
+                  SizedBox(
                     height: 200,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
@@ -290,38 +301,38 @@ class MovieDetail extends StatelessWidget {
                         return Card(
                           child: InkWell(
                               onTap: () {
-                              Navigator.pushNamed(context, MovieItemsDetailPage.routeName,
-                                  arguments: similar);
-                            },
-                            child: Container(
-                              width: 100,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Image.network(
-                                      similar.image!,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 0.0),
-                                    child: Text(
-                                      similar.title,
-                                      textAlign: TextAlign.left,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
+                                Navigator.pushNamed(
+                                    context, MovieItemsDetailPage.routeName,
+                                    arguments: similar);
+                              },
+                              child: SizedBox(
+                                width: 100,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Image.network(
+                                        similar.image!,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ),
+                                    const SizedBox(height: 8),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 0.0),
+                                      child: Text(
+                                        similar.title,
+                                        textAlign: TextAlign.left,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )),
                         );
                       }).toList(),
                     ),
@@ -335,5 +346,3 @@ class MovieDetail extends StatelessWidget {
     );
   }
 }
-
-

@@ -9,10 +9,12 @@ class SettingsPage extends StatelessWidget {
   static const routeName = '/setting_page';
   static const String settingsTitle = 'Settings';
 
+  const SettingsPage({Key? key}) : super(key: key);
+
   Widget _buildAndroid(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(settingsTitle),
+        title: const Text(settingsTitle),
       ),
       body: _buildList(context),
     );
@@ -20,7 +22,7 @@ class SettingsPage extends StatelessWidget {
 
   Widget _buildIos(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
+      navigationBar: const CupertinoNavigationBar(
         middle: Text(settingsTitle),
       ),
       child: _buildList(context),
@@ -34,7 +36,7 @@ class SettingsPage extends StatelessWidget {
           children: [
             Material(
               child: ListTile(
-                title: Text('Dark Theme'),
+                title: const Text('Dark Theme'),
                 trailing: Switch.adaptive(
                   value: provider.isDarkTheme,
                   onChanged: (value) {

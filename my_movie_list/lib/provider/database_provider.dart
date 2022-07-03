@@ -11,8 +11,8 @@ class DatabaseProvider extends ChangeNotifier {
     _getWatchlist();
   }
 
-  late ResultState _state;
-  ResultState get state => _state;
+  ResultState? _state;
+  ResultState? get state => _state;
 
   String _message = '';
   String get message => _message;
@@ -26,7 +26,7 @@ class DatabaseProvider extends ChangeNotifier {
       _state = ResultState.hasData;
     } else {
       _state = ResultState.noData;
-      _message = 'Empty Data';
+      _message = 'No Watchlist Yet';
     }
     notifyListeners();
   }

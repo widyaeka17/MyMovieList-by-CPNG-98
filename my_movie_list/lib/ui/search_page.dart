@@ -23,9 +23,8 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
     return Scaffold(
         appBar: AppBar(
             title: Container(
-              child: _searchBar(),
-            )
-        ),
+          child: _searchBar(),
+        )),
         body: SafeArea(
           child: Column(children: [
             const SizedBox(height: 8),
@@ -33,7 +32,7 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
               child: Consumer<MovieSearchProvider>(
                 builder: (context, state, _) {
                   if (state.state == ResultState.loading) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (state.state == ResultState.hasData) {
                     return ListView.builder(
                       shrinkWrap: true,
@@ -48,7 +47,7 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
                   } else if (state.state == ResultState.error) {
                     return Center(child: Text(state.message));
                   } else {
-                    return Center(child: Text(''));
+                    return const Center(child: Text(''));
                   }
                 },
               ),
@@ -116,7 +115,3 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
     });
   }
 }
-
-
-
-

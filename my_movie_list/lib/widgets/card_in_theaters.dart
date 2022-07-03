@@ -8,7 +8,8 @@ import '../ui/detail_page.dart';
 class CardInTheaters extends StatelessWidget {
   final MovieItem inTheatersMovies;
 
-  const CardInTheaters({required this.inTheatersMovies});
+  const CardInTheaters({Key? key, required this.inTheatersMovies})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,30 +38,30 @@ class CardInTheaters extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(left: 3),
+                        padding: const EdgeInsets.only(left: 3),
                         child: Text(
                           inTheatersMovies.fullTitle!,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      SizedBox(height: 3),
-                      Row(
-                          children: <Widget>[
-                            SizedBox(width: 3.0),
-                            Flexible(child: Text(inTheatersMovies.genres!)),
-                          ]
-                      ),
-                      SizedBox(height: 3),
-                      Row(
-                          children: <Widget>[
-                            Icon(Platform.isIOS ? CupertinoIcons.calendar : Icons.calendar_month,),
-                            SizedBox(width: 3.0),
-                            Text(inTheatersMovies.releaseState!),
-                          ]
-                      ),
+                      const SizedBox(height: 3),
+                      Row(children: <Widget>[
+                        const SizedBox(width: 3.0),
+                        Flexible(child: Text(inTheatersMovies.genres!)),
+                      ]),
+                      const SizedBox(height: 3),
+                      Row(children: <Widget>[
+                        Icon(
+                          Platform.isIOS
+                              ? CupertinoIcons.calendar
+                              : Icons.calendar_month,
+                        ),
+                        const SizedBox(width: 3.0),
+                        Text(inTheatersMovies.releaseState!),
+                      ]),
                     ],
                   ),
                 ),

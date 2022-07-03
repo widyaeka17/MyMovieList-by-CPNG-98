@@ -9,11 +9,13 @@ import '../widgets/platform_widget.dart';
 class PopularListPage extends StatelessWidget {
   static const routeName = '/popular';
 
+  const PopularListPage({Key? key}) : super(key: key);
+
   Widget _buildList(BuildContext context) {
     return Consumer<PopularProvider>(
       builder: (context, state, _) {
         if (state.state == ResultState.loading) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (state.state == ResultState.hasData) {
           return ListView.builder(
             shrinkWrap: true,
@@ -28,7 +30,7 @@ class PopularListPage extends StatelessWidget {
         } else if (state.state == ResultState.error) {
           return Center(child: Text(state.message));
         } else {
-          return Center(child: Text(''));
+          return const Center(child: Text(''));
         }
       },
     );
@@ -37,7 +39,7 @@ class PopularListPage extends StatelessWidget {
   Widget _buildAndroid(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Popular Movies'),
+        title: const Text('Popular Movies'),
       ),
       body: _buildList(context),
     );
@@ -45,7 +47,7 @@ class PopularListPage extends StatelessWidget {
 
   Widget _buildIos(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
+      navigationBar: const CupertinoNavigationBar(
         middle: Text('Popular Movies'),
       ),
       child: _buildList(context),

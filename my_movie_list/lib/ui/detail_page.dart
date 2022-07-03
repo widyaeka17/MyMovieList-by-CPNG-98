@@ -13,9 +13,8 @@ class MovieItemsDetailPage extends StatelessWidget {
 
   final MovieItem movie;
 
-  const MovieItemsDetailPage({required this.movie});
+  const MovieItemsDetailPage({Key? key, required this.movie}) : super(key: key);
 
-  @override
   Widget _buildDetail(BuildContext context) {
     return ChangeNotifierProvider<DetailProvider>(
       create: (_) => DetailProvider(apiService: ApiService(), id: movie.id),
@@ -23,23 +22,25 @@ class MovieItemsDetailPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(movie.title),
         ),
-        body: Consumer<DetailProvider>(
-            builder: (context, state, _) {
-              if (state.state == ResultState.loading) {
-                return Center(child: CircularProgressIndicator(),);
-              } else if (state.state == ResultState.hasData) {
-                return Scaffold(
-                  body: MovieDetail(movieDetail: state.result, movie: movie,),
-                );
-              } else if (state.state == ResultState.noData) {
-                return Center(child: Text(state.message));
-              } else if (state.state == ResultState.error) {
-                return Center(child: Text(state.message));
-              } else {
-                return Center(child: Text(''));
-              }
-            }
-        ),
+        body: Consumer<DetailProvider>(builder: (context, state, _) {
+          if (state.state == ResultState.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state.state == ResultState.hasData) {
+            return Scaffold(
+              body: MovieDetail(
+                movieDetail: state.result,
+              ),
+            );
+          } else if (state.state == ResultState.noData) {
+            return Center(child: Text(state.message));
+          } else if (state.state == ResultState.error) {
+            return Center(child: Text(state.message));
+          } else {
+            return const Center(child: Text(''));
+          }
+        }),
       ),
     );
   }
@@ -47,10 +48,6 @@ class MovieItemsDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlatformWidget(
-        androidBuilder: _buildDetail,
-        iosBuilder: _buildDetail
-    );
+        androidBuilder: _buildDetail, iosBuilder: _buildDetail);
   }
 }
-
-

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_movie_list/ui/profile_page.dart';
+import 'package:my_movie_list/ui/profil_page.dart';
 import 'package:my_movie_list/ui/watchlist_page.dart';
 import 'package:my_movie_list/widgets/home_widget.dart';
 
@@ -10,6 +10,8 @@ import '../widgets/platform_widget.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home_page';
+
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -19,13 +21,13 @@ class _HomePageState extends State<HomePage> {
   int _bottomNavIndex = 0;
   static const String _headlineText = 'Home';
 
-  List<Widget> _listWidget = [
-    HomeWidget(),
-    WatchlistPage(),
-    ProfilPage(),
+  final List<Widget> _listWidget = [
+    const HomeWidget(),
+    const WatchlistPage(),
+    const ProfilPage(),
   ];
 
-  List<BottomNavigationBarItem> _bottomNavBarItems = [
+  final List<BottomNavigationBarItem> _bottomNavBarItems = [
     BottomNavigationBarItem(
       icon: Icon(Platform.isIOS ? CupertinoIcons.home : Icons.home),
       label: _headlineText,
@@ -37,7 +39,9 @@ class _HomePageState extends State<HomePage> {
       label: WatchlistPage.watchlistTitle,
     ),
     BottomNavigationBarItem(
-      icon: Icon(Platform.isIOS ? CupertinoIcons.profile_circled : Icons.account_circle),
+      icon: Icon(Platform.isIOS
+          ? CupertinoIcons.profile_circled
+          : Icons.account_circle),
       label: 'Profile',
     ),
   ];
